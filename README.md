@@ -1,6 +1,6 @@
 # Python-tdd-study
 
-🔥프로그라피 6기 python-tdd-study 입니다.🔥
+🔥python-tdd-study 입니다.🔥
 
 ![파이썬을 이용한 - 클린코드 위한 테스트 주도 개발](http://image.yes24.com/momo/TopCate471/MidCate001/47009236.jpg) 
 
