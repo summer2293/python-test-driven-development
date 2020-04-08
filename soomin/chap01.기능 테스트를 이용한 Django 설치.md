@@ -1,5 +1,11 @@
 ## chap01 - 기능테스트를 이용한 Django 설치
 
+#### TDD - "테스트를 작성해라"
+
+항상 먼저 테스트를 작성한 후 실행한다. 테스트가 예상대로 실패하는지 확인한다. 이 과정이 끝나고 실제 코드를 작성한다.
+
+
+
 #### 셀레늄 
 
 브라우저 자동화 툴
@@ -7,6 +13,10 @@
 ##### functional_test.py
 
 > 책과 다르게 폴더에 chromedriver path 를 지정해야 동작한다.. 
+
+```
+$ pip install selenium
+```
 
 ```python
 """
@@ -18,7 +28,7 @@
 """
 from selenium import webdriver # 
 
-browser = webdriver.Chrome("./chromedriver")
+browser = webdriver.Chrome("./chromedriver") # 이걸 해야함..
 browser.get('http://localhost:8000')
 
 assert 'Django' in browser.title
@@ -34,6 +44,24 @@ Traceback (most recent call last):
     assert 'Django' in browser.title
 AssertionError
 ```
+
+
+
+#### assert
+
+assert는 뒤의 조건이 True가 아니면 AssertError를 발생한다.
+
+```python 
+>>> a = 3
+>>> assert a == 2
+
+# 결과
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError
+```
+
+
 
 
 
