@@ -43,6 +43,8 @@ browser.quit()
 
 
 
+python 에서 assertion error에 대해 명확한 값을 알고싶은 경우, try / execept 를 이용 할 수 있지만, 테스트 시 자주 발생하기 때문에 python에서는 unittest 모듈을 제공해준다.
+
 #### python unittest 모듈
 
 ```python
@@ -79,7 +81,57 @@ if __name__ == '__main__':
 
 끝날 때 시작하는 모듈
 
+##### assertIn
 
+유닛테스트에서 제공하는 테스트 메서드.
+
+https://docs.python.org/ko/3/library/unittest.html
+
+> Junit 단위테스트랑 비슷하다.
+>
+> ##### test fixture
+>
+> 테스트 수행 전 준비 작업
+>
+> ##### test case
+>
+> 테스트의 개별 단위
+>
+> ##### Test 묶음
+>
+> 여러 테스트 케이스 
+>
+> ##### assert method a 종류
+>
+> ```python
+> assertEqual(a, b) # a == b
+> 
+> assertNotEqual(a, b) # a != b
+> 
+> assertTrue(x) # bool(x) is True
+> 
+> assertFalse(x) # bool(x) is False
+> 
+> assertIs(a, b) #a is b
+> 
+> assertIsNot(a, b) # a is not b
+> 
+> assertIsNone(x) # x is None
+> 
+> assertIsNotNone(x) # x is not None
+> 
+> assertIn(a, b) # a in b
+> 
+> assertNotIn(a, b)# a not in b
+> 
+> assertIsInstance(a, b) # isinstance(a, b)
+> 
+> assertNotIsInstance(a, b) # not isinstance(a, b)
+> ```
+
+- fail()
+
+  강제적으로 테스트 실패를 발생시켜 에러메세지를 출력. 테스트가 끝남을 알려준다.
 
 ###### 실행 후 
 
@@ -117,3 +169,4 @@ def setup(self):
 ##### implicitly_wait
 
 필요에 따라 지정한 시간(초 단위)만큼 동작을 대기 상태로 둘 수 있다. 
+
