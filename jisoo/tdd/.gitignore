@@ -1,0 +1,5 @@
+.vscode
+.python-version
+chromedriver
+db.sqlite3
+__pycache__
