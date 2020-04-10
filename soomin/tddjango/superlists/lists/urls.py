@@ -1,5 +1,7 @@
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
-urlpatterns = [ 
-    url(r'Aadmin/', include(admin.site.urls)),
+# from django.conf.urls import include
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home_page),
 ]

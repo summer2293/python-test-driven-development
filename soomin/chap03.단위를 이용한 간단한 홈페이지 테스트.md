@@ -22,9 +22,9 @@ $ python3 manage.py startapp
 
 ##### FLOW
 
-1. 기능 테스트로 사용자 관점의 새로운 기능을 정의한다.
-2. 단위테스트를 통해 기능을 정의한다.
-3. 단위 테스트를 통과할 만한 최소 코드 작성 
+1. 사용자 관점의 새로운 기능을 정의한다. (기능 테스트)
+2. 기능테스트를 실패하면 어떻게 코드를 작성해야 성공할지 생각한다. 이 시점에서 단위테스트를 통해 기능을 정의한다.
+3. 단위 테스트가 실패하면 통과할 만한 최소 코드 작성 
 4. 통과 확인
 
 
@@ -100,6 +100,14 @@ class HomePageTest(TestCase):
         found = reverse('/') # 책과 다르게 reverse. 변경되었다.
         self.assertEqual(found.func, home_page) # homepage 와 맞는지 check
 ```
+
+##### reverse()
+
+해당 url에 대한 도메인 외 url 을 리턴해준다.
+
+https://wayhome25.github.io/django/2017/05/05/django-url-reverse/
+
+
 
 
 
