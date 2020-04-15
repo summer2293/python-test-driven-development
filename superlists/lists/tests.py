@@ -5,7 +5,7 @@ from .views import home_page
 
 # Create your tests here.
 
-# 이 부분은 수현 책의 django version이 1.7 이고 지금은 3.0.5 라서 수현님의 코드를 인용하였습니다
+# 이 부분은 책의 django version이 1.7 이고 지금은 3.0.5 라서 수민님의 코드를 인용하였습니다
 # 2.0 version 이후부터 url 들고오는 코드 부분들이 바뀌어 졌어요
 class HomePageTest(TestCase):
     def test_root_url_resolves_to_home_page_view(self):
