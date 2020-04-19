@@ -37,12 +37,26 @@ TypeError: 'WebElement' object is not iterable
 
 --------------------------------
 
-## 스트라이크 세개면 리팩터
+### 스트라이크 세개면 리팩터
 같은 코드가 세번 반복 될 경우, 그 코드를 리팩터를 할 필요가 있다 
 리팩터 : 코드의 기능을 수정하지 않고, 가독성이나 표현들을 수정을 한다 
 
+--------------------------------
+### 객체 관계형 맵핑 (Object-Relational Mapper ORM)
+Mysql 같은 방식이라고 생각하면 편함
+[ORM관련 설명 자료](https://jins-dev.tistory.com/entry/ORMObject-Relational-Mapping%EC%9D%B4%EB%9E%80-ORM-%ED%8C%A8%EB%9F%AC%EB%8B%A4%EC%9E%84%EC%9D%98-%EA%B0%9C%EB%85%90)
 
+--------------------------------
 
+### 데이터 베이스 
+ python manage.py makemigrations 를 통해서 list/model.py에 적힌 내용을 기반으로 model을 sqlite3에 저장을 하게 됨
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
