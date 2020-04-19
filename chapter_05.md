@@ -35,9 +35,11 @@ TypeError: 'WebElement' object is not iterable
  출처: (https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error)[https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error]
 
 
+--------------------------------
 
-
-
+## 스트라이크 세개면 리팩터
+같은 코드가 세번 반복 될 경우, 그 코드를 리팩터를 할 필요가 있다 
+리팩터 : 코드의 기능을 수정하지 않고, 가독성이나 표현들을 수정을 한다 
 
 
 
