@@ -17,21 +17,17 @@ CSRF 공격(Cross Site Request Forgery)은 웹 어플리케이션 취약점 중 
 
 -----------------------------------
 
-
+```python
 ERROR: test_can_start_a_list_and_retrieve_it_later (__main__.NewVisitor)
-
-----------------------------------------------------------------------
 Traceback (most recent call last):
   File "chapter_05.py", line 41, in test_can_start_a_list_and_retrieve_it_later
     self.assertIn("1: 공작깃털 사기", [row.text for row in rows])
 TypeError: 'WebElement' object is not iterable
-
-----------------------------------------------------------------------
-
+```
 이런 경우가 나타 날 경우, 
 **Solution: replace find_element_by_xpath with find_elements_by_xpath**
 
-출처: (https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error)[https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error]
+ 출처: (https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error)[https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error]
 
 
 
