@@ -2,6 +2,8 @@ from django.urls import reverse, resolve
 from django.test import TestCase
 from django.http import HttpRequest
 from .views import home_page
+from django.template.loader import render_to_string
+
 
 # Create your tests here.
 
@@ -15,14 +17,12 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
+        expected_html = render_to_string("home.html")  # .decode()는 byte데이터를 파이썬 유니코드 문자열로 변화한다
+        self.assertEqual(response.content.decode(), expected_html)  # 즉 문자열과 문자열을 비교를 하는 것이다
 
-        self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertIn(b'<title>To-do lists</title>',response.content)
-        self.assertTrue(response.content.endswith(b'</html>'))
 
-        # self.assertTrue(response.content.startswith(b'<html>'))
-        # self.assertIn(b'<title>To-do lists</title>', response.content)
-        # self.assertTrue(response.content.endswith(b'</html>'))
+
+
 
 
 
