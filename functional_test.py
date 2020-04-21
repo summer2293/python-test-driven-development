@@ -10,6 +10,11 @@ class NewVisitorTest(unittest.TestCase):
     def testDown(self):
         self.browser.quit()
 
+    def check_for_row_int_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 사이트 접속
         self.browser.get('http://localhost:8000')
@@ -34,10 +39,10 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: 공작깃털 사기' for row in rows),
-            "신규 작업이 테이블에 표시되지 않는다."
-        )
+        self.check_for_row_int_list_table("1: 공잣깃털 사기")
+        self.check_for_row_int_list_table("2: 공잣깃털을 이용하여 그물 만들기")
+
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
