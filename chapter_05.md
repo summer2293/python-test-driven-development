@@ -51,9 +51,30 @@ Mysql 같은 방식이라고 생각하면 편함
 ### 데이터 베이스 
  python manage.py makemigrations 를 통해서 list/model.py에 적힌 내용을 기반으로 model을 sqlite3에 저장을 하게 됨
  
+ django.db.utils.OperaionalError: no such column: list_item.text 가 뜬다면, 
  
  
+ ```python
+python manage.py makemigrations 
+
+or
+
+rm db.slite3
+python mange.py makemigrations 
+python manage.py migrate --noinput 
+이렇게 진행을 하는것이 좋아보인다
+
+```
+ ---------------------------------------
+ .object.create 는 .save()의 축약 명령으로 호출이 필요 없다 
  
+ -------------------------------------------
+ http status code 를 보다가 절학히 무었을 정의하는지 궁금해서 찾아 보았고,
+ 아래 링크로 가면 있습니다.
+200 : 요청은 정상이고, 본문은 요청된 리소스를 포함하고 있다.  
+301 : 요청한 URL이 옮겨졌을 때 사용. 옮겨진 URL에 대한 정보와 함께 응답되어야 한다.  
+302 : 301과 동일하나, 클라이언트는 여전히 옮겨지기전 URL로 요청할것을 의미  
+ [http status code 정리 ](https://velog.io/@honeysuckle/HTTP-%EC%83%81%ED%83%9C-%EC%BD%94%EB%93%9C-HTTP-status-code-)
  
  
  
