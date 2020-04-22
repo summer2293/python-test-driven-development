@@ -34,6 +34,38 @@ TypeError: 'WebElement' object is not iterable
 
  출처: (https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error)[https://stackoverflow.com/questions/39520426/typeerror-webelement-object-is-not-iterable-error]
 
+-------------------------------
+
+```python
+Django
+def hoem_page(request):
+  return render(request, "home.html",{
+    'new_item_text' : request.POST.get("item_text","")
+  })
+```
+
+```python
+Flask
+@app.route('/test', methods=['POST'])
+def test():
+    # save image file and bytes
+    image_file = request.files["image"]
+    image_file_name = image_file.filename
+```
+이런 식으로 다르게 받는게 신기하네요
+
+-------------------------------
+Template 언어란?
+```python
+Django
+def hoem_page(request):
+  return render(request, "home.html",{
+    'new_item_text' : request.POST.get("item_text","")
+  })
+```
+이와 같은 입력에 대해서, home.html에 
+{{ new_item_text }} 와 같은 방식으로 html에 내부에서 접근을 가능케 하는 방식이다
+
 
 --------------------------------
 
