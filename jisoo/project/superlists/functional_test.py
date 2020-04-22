@@ -39,6 +39,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
 
         self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물 만들기')
+
         self.check_for_row_in_list_table('1: 공작깃털 사기')
 
         # 강제로 테스트 실패를 발생시킨다.
