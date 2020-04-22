@@ -105,6 +105,12 @@ FAILED (failures=1)
 
 
 
+`unittest`에 대해서는 아래 링크에서 자세하게 살펴볼 수 있습니다.
+
+https://docs.python.org/ko/3/library/unittest.html
+
+
+
 ### 암묵적 대기
 
 셀레늄은 비교적 안정적으로 페이지 로딩이 끝날 때까지 기다렸다가 테스트를 실행하지만 완벽하지는 않습니다. 
