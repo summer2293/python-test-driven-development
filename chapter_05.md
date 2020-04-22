@@ -78,6 +78,27 @@ def hoem_page(request):
 Mysql 같은 방식이라고 생각하면 편함
 [ORM관련 설명 자료](https://jins-dev.tistory.com/entry/ORMObject-Relational-Mapping%EC%9D%B4%EB%9E%80-ORM-%ED%8C%A8%EB%9F%AC%EB%8B%A4%EC%9E%84%EC%9D%98-%EA%B0%9C%EB%85%90)
 
+
+ ```python
+from django.db import models
+# Create your models here.
+# models.Model 을 상속 해야 이런 .save(), .objects() 같은 함수들을 쓸수 있다
+class Item(models.Model):
+    text = models.TextField(default='')
+```
+
+[장고에서 모델을 정의를 하고 사용하는 법](https://wayhome25.github.io/django/2017/03/20/django-ep5-model/)
+
+ ```python
+# 2. shell에서 migrations, migrate 실행
+$ python3 manage.py makemigrations
+$ python3 manage.py migrate
+# 위 명령을 통해서 앱폴더 아래에 migration 폴더가 생성되고 DB에 테이블을 생성한다.
+```
+
+[마이그레이션을 하는 이유](https://wayhome25.github.io/django/2017/03/20/django-ep6-migrations/)
+
+
 --------------------------------
 
 ### 데이터 베이스 
@@ -99,6 +120,36 @@ python manage.py migrate --noinput
 ```
  ---------------------------------------
  .object.create 는 .save()의 축약 명령으로 호출이 필요 없다 
+ 
+ 
+ ```python
+def home_page(request):
+  item = Item()
+  item.text = request.POST.get("item_text","")
+  item.save()
+  
+or 
+def home_page(request):
+  if request.method == "POST":
+    new_item_text = request.POST['item_text']
+    Item.objects.create(text = new_item_text)
+  else:
+    new_item_text = ""
+  return render(request, 'home.html',{
+    'new_item_text' : new_item_text
+  })
+```
+
+그리고
+```python
+request.POST.get("item_text","")
+or 
+request.POST["item_text"]
+``` 
+두방식 모두 쓸수 있지만 각각의 경우가 있으므로, 아래 포스트에 정리를 해두었길래 들고 왔습니다 
+[https://cjh5414.github.io/django-keyerror/](https://cjh5414.github.io/django-keyerror/)
+
+ 
  
  -------------------------------------------
  http status code 를 보다가 절학히 무었을 정의하는지 궁금해서 찾아 보았고,
