@@ -98,6 +98,7 @@ $ python3 manage.py migrate
 
 [마이그레이션을 하는 이유](https://wayhome25.github.io/django/2017/03/20/django-ep6-migrations/)
 
+model.py 정의 -> makemigration (마이그레이션 파일 생성) -> migrate (마이그레이션 파일을 db.sqlite에 적용)
 
 --------------------------------
 
@@ -149,6 +150,16 @@ request.POST["item_text"]
 두방식 모두 쓸수 있지만 각각의 경우가 있으므로, 아래 포스트에 정리를 해두었길래 들고 왔습니다 
 [https://cjh5414.github.io/django-keyerror/](https://cjh5414.github.io/django-keyerror/)
 
+----------------------------------------
+
+ ### POST 후에는 항상 리다이렉트 하라 
+```python
+def home_page(request):
+  if request.method == "POST":
+     Item.objects.create(text = request.POST["item_text"])
+     return redirect("/")
+```
+redirect를 안 할경우, 아마 그 form을 보낸 곳과 똑같은 웹 페이지 뷰가 보이겠죠?
  
  
  -------------------------------------------
@@ -159,7 +170,7 @@ request.POST["item_text"]
 302 : 301과 동일하나, 클라이언트는 여전히 옮겨지기전 URL로 요청할것을 의미  
  [http status code 정리 ](https://velog.io/@honeysuckle/HTTP-%EC%83%81%ED%83%9C-%EC%BD%94%EB%93%9C-HTTP-status-code-)
  
- 
+ -----------------------------------------
  
 
 
