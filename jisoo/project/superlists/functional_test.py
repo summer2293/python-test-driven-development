@@ -37,10 +37,17 @@ class NewVisitorTest(unittest.TestCase):
 
         # 엔터키를 치면 페이지가 갱신되고 작업 목록에 아이템이 추가된다
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(3)
 
-        self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물 만들기')
+        # 텍스트 입력
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
+        # 엔터키 입력 시 페이지가 갱신되고 작업목록에 입력한 데이터 추가
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(3)
 
         self.check_for_row_in_list_table('1: 공작깃털 사기')
+        self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물 만들기')
 
         # 강제로 테스트 실패를 발생시킨다.
         self.fail('Finish the test!')
