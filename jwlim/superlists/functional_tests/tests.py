@@ -85,6 +85,6 @@ class NewVisitorTest(LiveServerTestCase):
         # 에디스가 입력한 흔적이 없다는 것을 확인한다
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('공작깃털 사기', page_text)
-        self.assertNotIn('우유 사기', page_text)
+        self.assertIn('우유 사기', page_text)
 
         # 둘다 만족하고 잠자리에 든다
