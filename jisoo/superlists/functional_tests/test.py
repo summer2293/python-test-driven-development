@@ -15,7 +15,6 @@ class NewVisitorTest(LiveServerTestCase):
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id("id_list_table")
         rows = table.find_elements_by_tag_name("tr")
-        print(rows)
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
@@ -72,7 +71,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 프란시스가 전용 URL을 취득한다.
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, "/lists/.+")
-        self.assertEqual(francis_list_url, edith_list_url)
+        self.assertNotEqual(francis_list_url, edith_list_url)
 
         # 에디스가 입력한 흔적이 없다는 것을 다시 확인한다.
         page_text = self.browser.find_element_by_tag_name("body").text
