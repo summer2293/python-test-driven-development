@@ -1,2 +1,0 @@
-print("aaaa")
-print("bbb")
