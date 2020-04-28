@@ -1,13 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
+import time
 
 class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome("./chromedriver")
         self.browser.implicitly_wait(3)
 
-    def testDown(self):
+    def tearDown(self):
+        time.sleep(3)
         self.browser.quit()
 
     def check_for_row_int_list_table(self, row_text):
