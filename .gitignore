@@ -1,5 +1,6 @@
 *.pytest_cache
 *__pycache__
 *db.sqlite3
+*migrations/
 soomin/tddjango/env
 *env

@@ -18,13 +18,13 @@
   2. 테스트를 통과하는 최소 코드 작성
   3. 리팩토링 
 
-  ![image-20200427153229424](/Users/soomin/Library/Application Support/typora-user-images/image-20200427153229424.png)
+  ![tdd](./img/tdd1.png)
 
   ##### 기능 + 유닛테스트 병합의 경우 FLOW
 
   > 기능 테스트를 상위 관점으로 두고 테스트를 진행한다. 
 
-  ![스크린샷 2020-04-27 오후 3.30.44](/Users/soomin/Desktop/odk/tdd.png)
+  ![tdd flow](./img/tdd2.png)
 
   
 
