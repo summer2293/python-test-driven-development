@@ -474,5 +474,423 @@ Ran 1 test in 10.243s
 
 ### 목록 아이템 추가하기 위한 URL과 뷰
 
+`test_home_page_can_save_a_POST_request` 와 `test_home_page_redirects_after_post` 를 새로운 클래스로 이동하고 새롭게 이름을 지어줍니다.
+
+또한 Django 클라이언트 테스트를 이용해 수정해줍시다.
+
+``` python
+# lists/tests.py
+
+class NewListTest(TestCase):
+
+    def test_saving_a_POST_request(self):
+        self.client.post(
+            '/lists/new',
+            data={'item_text': '신규 작업 아이템'}
+        )
+
+        print(Item.objects.all())
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, '신규 작업 아이템')
+
+    
+    def test_redirects_after_post(self):
+        response = self.client.post(
+            '/lists/new',
+            data={'item_text': '신규 작업 아이템'}
+        )
+
+        self.assertRedirects(response, '/lists/the-only-list-in-the-world/')
+```
+
+
+
+#### 신규 목록 생성을 위한 URL과 View
+
+신규 목록 생성을 위한 url과 view를 만들어봅시다.
+
+`home_page` 에서 POST 요청이 들어왔을 경우의 로직을 따로 때내어 `new_list` 로 만들어줍니다.
+
+``` python
+# lists/urls.py
+urlpatterns = [
+    # 생략
+    path('lists/new', views.new_list),
+]
+
+# lists/views.py
+
+def home_page(request):
+    return render(request, 'lists/home.html')
+  
+# 생략
+
+def new_list(request):
+    Item.objects.create(text=request.POST['item_text'])
+    return redirect('/lists/the-only-list-in-the-world/')
+```
+
+> 데이터베이스에 액션을 가하는  URL인 경우에는 url 뒤에  / 를 생략합니다.
+
+
+
+이제 html 파일의 form을 새로운 url로 연동합니다.
+
+``` html
+<!-- home.html, list.html -->
+
+<form method="POST" action="/lists/new">
+```
+
+
+
+기능 테스트에 대해 예상된 실패가 발생합니다.
+
+``` 
+======================================================================
+FAIL: test_can_start_a_list_and_retrieve_it_later (functional_tests.tests.NewVisitorTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/rkdalstjd9/Desktop/prography/python-test-driven-development/minsung/project/functional_tests/tests.py", line 69, in test_can_start_a_list_and_retrieve_it_later
+    self.assertNotEqual(francis_list_url, edith_list_url)
+AssertionError: 'http://localhost:57314/lists/the-only-list-in-the-world/' == 'http://localhost:57314/lists/the-only-list-in-the-world/'
+
+----------------------------------------------------------------------
+Ran 1 test in 10.057s
+
+FAILED (failures=1)
+```
+
+
+
+
+
+### 모델 조정하기
+
+
+
+```python
+# lists/tests.py
+
+import .models import Item, List
+
+def test_saving_and_retrieving_items(self):
+    list_ = List()
+    list_.save()
+    
+    first_item = Item()
+    first_item.text = "첫 번째 아이템"
+    first_item.list = list_
+    first_item.save()
+    
+    second_item = Item()
+    second_item.text = "두 번째 아이템"
+    second_item.list = list_
+    second_item.save()
+    
+    saved_list = List.objects.first()
+    self.assertEqual(saved_list, list_)
+    
+    saved_items = Item.objects.all()
+    self.assertEqual(saved_items.count(), 2)
+    
+    first_saved_item = saved_items[0]
+    second_saved_item = saved_items[1]
+    self.assertEqual(first_saved_item.text, "첫 번째 아이템")
+    self.assertEqual(first_saved_item.list, list_)
+    self.assertEqual(second_saved_item.text, "두 번째 아이템")
+    self.assertEqual(second_saved_item.list, list_)
+```
+
+
+
+이에 맞춰서 `List` 모델을 만들어줍니다. 
+
+모델을 수정한 다음에는 자동으로 makemigrations 와 migrate를 해줍시다.
+
+```python
+# lists/models.py
+
+from django.db import models
+
+
+class List(models.Model):
+    pass
+
+class Item(models.Model):
+    text = models.TextField(default='')
+    list = models.ForeignKey(List, default=None, on_delete=models.CASCADE)
+```
+
+
+
+단위 테스트를 하면 뷰 테스트에서 3개의 error가 발생합니다.
+
+이를 해결하기 위해 수정을 해주겠습니다.
+
+지금 하는 수정은 `Item`이 생길 때마다  새로운 `List`를 만들어서 그에 대응 시키는건데 이는 정상적인 해결 방법이 아닙니다. 
+
+하지만 TDD를 할 때는 다음과 같이 조심스럽게 진행해야 합니다.
+
+```python
+# lists/tests.py
+
+def test_displays_all_items(self):
+    list_ = List.objects.create()
+    Item.objects.create(text='item1', list=list_)
+    Item.objects.create(text='item2', list=list_)
+    
+# lists/views.py
+
+def new_list(request):
+    list_ = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'], list=list_)
+    return redirect('/lists/the-only-list-in-the-world/')
+```
+
+
+
+### 각 목록이 하나의 고유 URL을 가져야 한다
+
+오래된 `test_uses_list_template`  을 수정하고 `test_displays_only_items_for_that_list`  을 추가해줍니다. 
+
+``` python
+# lists/tests.py
+
+class LiveViewTest(TestCase):
+
+    def test_uses_list_template(self):
+        list_ = List.objects.create()
+        response = self.client.get('/lists/%d/' % (list_.id,))
+        self.assertTemplateUsed(response, 'lists/list.html')
+
+    def test_displays_only_items_for_that_list(self):
+        correct_list = List.objects.create()
+        Item.objects.create(text="item1", list=correct_list)
+        Item.objects.create(text="item2", list=correct_list)
+
+        other_list = List.objects.create()
+        Item.objects.create(text="other item1", list=other_list)
+        Item.objects.create(text="other item2", list=other_list)
+
+        response = self.client.get('/lists/%d/' % (correct_list.id,))
+
+        self.assertContains(response, 'item1')
+        self.assertContains(response, 'item2')
+        self.assertNotContains(response, 'other item1')
+        self.assertNotContains(response, 'other item2')
+```
+
+
+
+테스트 실행 시 , 예상한 대로 404와 관련된 2개의 에러가 발생합니다.
+
+
+
+urls이 파라미터를 전달 받도록 수정해줍시다.
+
+```python
+# lists/urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home_page),
+    path('lists/<int:list_id>/', views.view_list),
+    path('lists/new', views.new_list),
+]
+
+# lists/views.py
+
+def view_list(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    items = Item.objects.filter(list=list_)
+    context = {
+        'items': items
+    }
+    return render(request, 'lists/list.html', context)
+```
+
+
+
+기존에 사용하던 `/lists/the-only-list-in-the-world/` 대신에 `lists/<int:list_id>/` 을 사용함으로서 수정사항이 생깁니다.
+
+``` python
+# lists/tests.py
+
+def test_redirects_after_post(self):
+    response = self.client.post(
+        '/lists/new',
+        data={'item_text': '신규 작업 아이템'}
+    )
+    new_list = List.objects.first()
+    self.assertRedirects(response, '/lists/%d/' %(new_list.id, ))
+    
+def test_displays_all_items(self):
+    list_ = List.objects.create()
+    Item.objects.create(text='item1', list=list_)
+    Item.objects.create(text='item2', list=list_)
+    
+    response = self.client.get('/lists/%d/' %(list_.id,))
+    
+    self.assertContains(response, 'item1')
+    self.assertContains(response, 'item2')
+    
+    
+# lists/views.py
+
+def new_list(request):
+    list_ = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'], list=list_)
+    return redirect('/lists/%d/' % (list_.id,))
+```
+
+
+
+이제 단위 테스트는 문제없이 통과됩니다.
+
+기능 테스트는 어떨까요?
+
+아직 에러가 발생합니다.
+
+``` 
+AssertionError: '1: 공잣깃털 사기' not found in ['1: 공잣깃털을 이용하여 그물 만들기']
+```
+
+
+
+### 기존 목록에 아이템을 추가하기 위한 또 다른 뷰
+
+기존 목록에 신규아이템을 추가하기 위한 URL과 뷰가 필요합니다.
+
+이를 위한 단위 테스트를 추가합시다.
+
+``` python
+# lists/tests.py
+
+class NewItemTest(TestCase):
+    def test_can_save_a_POST_request_to_an_existing_list(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        self.client.post(
+            '/lists/%d/add_item/' % (correct_list.id,),
+            data = {'item_text': '기존 목록에 신규 아이템'}
+        )
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, '기존 목록에 신규 아이템')
+        self.assertEqual(new_item.list, correct_list)
+
+    
+    def test_redirects_to_list_view(self):
+        other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        response = self.client.post(
+            '/lists/%d/add_item/' % (correct_list.id,),
+            data={ 'item_text': '기존 목록에 신규 아이템'}
+        )
+
+        self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
+```
+
+
+
+해당 url이 없으므로 결과는 예상대로 실패입니다.
+
+``` 
+AssertionError: 404 != 302 : Response didn't redirect as expected: Response code was 404 (expected 302)
+```
+
+
+
+이에 해당하는 url 과 view를 만들어줍시다.
+
+``` python
+# lists/urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home_page),
+    path('lists/<int:list_id>/', views.view_list),
+    path('lists/<int:list_id>/add_item/', views.add_item),
+    path('lists/new', views.new_list),
+]
+
+# lists/views.py
+
+def add_item(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    Item.objects.create(text=request.POST['item_text'], list=list_)
+    return redirect('/lists/%d/' % (list_.id,))
+```
+
+
+
+현재까지 모든 테스트가 통과합니다.
+
+
+
+`list.html` 과 연결시켜줍시다.
+```html
+<!-- templates/lists/list.html -->
+
+<form method="POST" action="/lists/{{ list.id }}/add_item">
+```
+
+
+
+이것이 동작하기 위해서는 뷰가 목록을 탬플릿에게 전달해야합니다.
+
+이를 테스트하는 단위 테스트를 작성합시다.
+
+```python
+# lists/tests.py LiveViewTest
+
+def test_passes_correct_list_to_template(self):
+    other_list = List.objects.create()
+    correct_list = List.objects.create()
+    response = self.client.get('/lists/%d/' % (correct_list.id,))
+    self.assertEqual(response.context['list'], correct_list)
+```
+
+`response.context` 은 렌더링 함수에 전달한 context를 나타냅니다.
+
+
+
+이제 view 에서 `list` 를 넘겨줘야합니다.
+
+``` python
+# lists/views.py
+
+def view_list(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    context = {
+        'list': list_
+    }
+    return render(request, 'lists/list.html', context)
+```
+
+
+
+views에서 item을 넘겨주지 않으니  html도 수정을 해야합니다.
+
+``` html
+<!-- templates/lists/list.html -->
+
+<table id="id_list_table">
+    {% for item in list.item_set.all %}
+        <tr><td>{{forloop.counter}}: {{ item.text }}</td></tr>
+    {% endfor %}
+</table>
+```
+
 
 
