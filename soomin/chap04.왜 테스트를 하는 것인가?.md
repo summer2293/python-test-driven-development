@@ -55,7 +55,9 @@ element는 1개를 찾는데, 값이 없다면 _Exception_ 을 반환한다. 하
 | It will only find one web element                            | It will find a collection of elements whose match the locator strategy. |
 | Not Applicable                                               | Each Web element is indexed with a number starting from 0 just like an array |
 
-#### generator expression vs list expression
+
+
+#### generator expression vs list comprehension
 
 _파이썬을 잘 모르는 사람을 위해 간단히 설명하면, 이 함수들은 Generator Expression 으로 list comprehension 과 비슷하지만 더 진보된 기술이다. 이것에 관한 자료를 찾 아 읽어볼 것을 권한다._
 
@@ -109,9 +111,27 @@ print [5,6] + gen() # generators can't be added to lists
 
   String 형태의 값으로 반환된다.
 
+
+
 ## 3. 같이 이야기 하고 싶은 내용
 
-x
+##### 민성
+
+TDD 프로세스 중에 가장 어려운 점은 `Write minimal code` 인 듯 합니다. (?)
+
+> 당연한것도 기본적으로 r, g, y 과정을 거치는게 어렵다. 결과가 눈에 보여서 지양하라니가 의미로 적었다. 
+
+
+
+##### 🔥 타이포라 🔥
+
+마크다운 에디터. 최강
+
+
+
+
+
+
 
 ## 4. 이해가 안가는 내용
 
