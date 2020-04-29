@@ -101,13 +101,35 @@ Ran 2 tests in 4.987s
 FAILED (failures=1)
 ```
 
-> 왜 2개의 test가 도는걸까?
 
 
-
-`unittest`에 대해서는 아래 링크에서 자세하게 살펴볼 수 있습니다.
+unittest`에 대해서는 아래 링크에서 자세하게 살펴볼 수 있습니다.
 
 https://docs.python.org/ko/3/library/unittest.html
+
+
+
+### 왜 test가 두 개 도는 걸까?
+
+위 결과를 살펴보면 테스트가 두 개가 돌아간 것을 확인할 수 있습니다.
+
+``` shell
+Ran 2 tests in 4.987s
+```
+
+책이나 다른 분들의 결과에서는 test가 1개 였기 때문에 무엇이 문제인지 찾다가 오타로 인한 것을 알 수 있었습니다.
+
+`tearDown` 을 `testDown` 으로 잘못 기재 했기 때문에 `testDown` 을 테스트 후에 발생시키는 함수가 아닌 test함수 처럼 인식하여 실행시킨 것이죠.
+
+그리고 위에 코드는 현재 브라우저를 열고, 닫고 2회 반복하게 됩니다.
+
+python 공식문서에 따르면 
+
+> [`setUp()`](https://docs.python.org/ko/3/library/unittest.html#unittest.TestCase.setUp)과 [`tearDown()`](https://docs.python.org/ko/3/library/unittest.html#unittest.TestCase.tearDown) 메서드로 각각의 테스트 메서드 전과 후에 실행될 명령어를 정의할 수 있습니다.
+
+`setUp`과` tearDown`은 각각의 test 메서드 앞 뒤로 실행되는 것이기 때문에 2회 반복되는 것이 맞았습니다.
+
+시험을 위해 test 메서드를 n개 작성할 경우,  두 메서드도 n번 호출 되는 것을 확인할 수 있습니다.
 
 
 
