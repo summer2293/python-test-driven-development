@@ -155,6 +155,7 @@ TDD는 애자일 방법과 밀접한 관련이 있다. 애자일은 이론보다
 ### 알게된 점
 - 정적 파일은 smoke 테스트를 통해 CSS가 로딩됐는지 확인한다.
 - `col-md-offset-6 col-md-offset-3` 선택자를 사용하면 6 크기만큼의 그리드가 오른쪽으로 3 크기만큼 떨어져 중앙에 배치된다.
+- 웹 서버에서 장고가 정적 컨텐츠를 제공하는 것은 매우 느리며 비효율적이기 때문에 정적 파일을 모아서 배포용으로 만들어 둔다. 이 작업을 해주는 것이 `collectstatic`이다. 정적 파일이 모이는 위치는 settings.py의 STATIC_ROOT 항목을 통해 설정된다.
 
 ### 논의 사항
 - `StaticLiveServerCase` 가 아니고 `StaticLiveServerTestCase` 가 맞음
