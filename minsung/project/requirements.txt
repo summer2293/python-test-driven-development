@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-Django==2.2.10
-=======
 Django==2.1.7
->>>>>>> minsung
 selenium==3.141.0
 webdriver-manager==2.4.0
