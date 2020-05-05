@@ -159,3 +159,5 @@ TDD는 애자일 방법과 밀접한 관련이 있다. 애자일은 이론보다
 
 ### 논의 사항
 - `StaticLiveServerCase` 가 아니고 `StaticLiveServerTestCase` 가 맞음
+- django admin 지우니까 서버가 안돌아감...?
+- static 폴더를 밖으로 빼고 collectstatic 했는데 테스트는 적용이 안되고 서버 돌린거는 적용이 된다. 뭐지?
