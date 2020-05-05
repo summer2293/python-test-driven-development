@@ -1,18 +1,25 @@
+{% extends 'base.html' %}
+{% block header_text %} jakup moklok {% endblock %}
+{% block form_action %}/lists/new{% endblock %}
+
+
+
+
+
+<!--
 <html>
     <head>
         <title>To-Do lists</title>
     </head>
     <body>
-        <h1>Your To-Do list</h1>
-        <form method="POST">
+        <h1>Your To-Do list in home</h1>
+        <form method="POST" action="/lists/new">
+
             <input name="item_text" id="id_new_item" placeholder="작업 아이템 입력" />
+
             {% csrf_token %}
         </form>
-
-        <table id="id_list_table">
-            {% for item in items %}
-                <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
-            {% endfor %}
-        </table>
     </body>
 </html>
+
+-->
