@@ -2,16 +2,32 @@
 
 <head>
     <title>To-Do lists</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/static/base.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
-    <h1>{% block header_text %}{% endblock %}</h1>
-    <form method="POST" action="{% block form_action %}{% endblock %}">
-        <input type="text" name="item_text" id="id_new_item" placeholder="작업 아이템 입력">
-        {% csrf_token %}
-    </form>
-    {% block table %}
-    {% endblock %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 jumbotron">
+                <div class="text-center">
+                    <h1>{% block header_text %}{% endblock %}</h1>
+                    <form method="POST" action="{% block form_action %}{% endblock %}">
+                        <input type="text" name="item_text" class="form-control input-lg" id="id_new_item"
+                            placeholder="작업 아이템 입력">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                {% block table %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
