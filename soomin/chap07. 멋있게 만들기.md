@@ -51,7 +51,7 @@
 
 ## 같이 이야기 하고 싶은 내용
 
-오류가 안 잡힌다 ㅠ
+##### 수민 - 오류가 안 잡힌다 ㅠ
 
 https://stackoverflow.com/questions/34629261/django-render-to-string-ignores-csrf-token/39859042#39859042
 
@@ -71,9 +71,18 @@ AssertionError: 315.0 != 512 within 10 delta (197.0 difference)
 
 
 
+##### 지수 - 논의 사항
+
+- `StaticLiveServerCase` 가 아니고 `StaticLiveServerTestCase` 가 맞음
+
+- django admin 지우니까 서버가 안돌아감...?
+- static 폴더를 밖으로 빼고 collectstatic 했는데 테스트는 적용이 안되고 서버 돌린거는 적용이 된다. 뭐지?
+
+
+
 ## 이해가 안가는 내용
 
-x
+
 
 
 
