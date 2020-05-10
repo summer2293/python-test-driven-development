@@ -66,4 +66,4 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn("우유 사기", page_text)
 
         # 강제로 테스트 실패를 발생시킨다.
-        self.fail("Finish the test!")
+        # self.fail("Finish the test!")
