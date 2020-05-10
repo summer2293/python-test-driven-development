@@ -1,26 +1,10 @@
-# 1. LiveServerTestCase 추가
-from django.test import LiveServerTestCase
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from .base import FuntionalTest
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
-import time
+from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(StaticLiveServerTestCase):
-    def setUp(self):
-        # 4. ChromeDriver 변경
-        self.browser = webdriver.Chrome(ChromeDriverManager().install())
-        self.browser.implicitly_wait(3)
 
-    def tearDown(self):
-        time.sleep(3)
-        self.browser.quit()
-
-    def check_for_row_int_list_table(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
-
+class NewVisitorTest(FuntionalTest):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 2. 로컬 호스트 접속 하드코딩 수정
         self.browser.get(self.live_server_url)
@@ -40,7 +24,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('공잣깃털을 이용하여 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
-        
+
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_int_list_table("1: 공잣깃털 사기")
@@ -71,23 +55,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertIn('우유 사기', page_text)
-
-
-    def test_layout_and_styling(self):
-        # 에디스는 메인 페이지를 방문한다.
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 768)
-
-        # 그녀는 입력상자가 가운데 배치된 것을 본다.
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
-            delta=10
-        )
-
-
-
-
-
-# 3. if __name__ == '__main__': 삭제
