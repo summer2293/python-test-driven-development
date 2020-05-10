@@ -81,7 +81,7 @@ class ListViewTest(TestCase):
         self.assertContains(response, "itemey 2")
         self.assertNotContains(response, "다른 목록 아이템 1")
         self.assertNotContains(response, "다른 목록 아이템 2")
-    
+
     def test_passes_correct_list_to_template(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
