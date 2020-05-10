@@ -160,4 +160,18 @@ TDD는 애자일 방법과 밀접한 관련이 있다. 애자일은 이론보다
 ### 논의 사항
 - `StaticLiveServerCase` 가 아니고 `StaticLiveServerTestCase` 가 맞음
 - django admin 지우니까 서버가 안돌아감...?
-- static 폴더를 밖으로 빼고 collectstatic 했는데 테스트는 적용이 안되고 서버 돌린거는 적용이 된다. 뭐지?
+- static 폴더를 밖으로 빼고 collectstatic 했는데 테스트는 적용이 안되고 서버 돌린거는 적용이 된다. 뭐지? -> static 폴더를 밖으로 빼면 안됨
+  
+## 8장 - 입력 유효성 검사 및 테스트 구조화
+
+### 알게된 점
+- 하나의 테스트 파일이 하나의 테스트만 보유하도록 수정한다.
+- `from unittest import skip` `@skip` 을 하면 테스트를 무시할 수 있다.
+- 유효성 검사는 모델, 폼 계층에서 할 수 있다. 모델 계층에서 하면 데이터 베이스 무결성 부분을 직접 테스트할 수 있고, 더 안전해서 좋다.
+- `with` context manager와 함께 사용되며, setup, error 코드 등을 블록으로 감싸준다.
+- 유효성 검증을 `full_clean()` 메소드를 통해 수동으로 할 수 있다.
+- `from django.utils.html import escape` : html을 랜더링해서 볼 수 있는 방법
+- `from django.url import reverse`를 model에서 지정해서 view에서 `get_absolute_url`을 사용하면 지정한 곳으로 리다이렉션과 함께 객체를 전달한다.
+
+### 논의 사항
+- `full_clean()` 개별 필드를 청소한다는데 무슨 말인지 모르겠음
