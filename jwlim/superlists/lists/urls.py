@@ -22,8 +22,12 @@ from .views import *
 #     path('lists/new', views.new_list, name='new_list'),
 # ]
 
+# urlpatterns = [
+#     re_path(r'^(\d+)/$', view_list, name='view_list'),
+#     re_path(r'^new$', new_list, name='new_list'),
+# ]
+
 urlpatterns = [
-    re_path(r'^(\d+)/$', view_list, name='view_list'),
-    re_path(r'^(\d+)/add_item$', add_item, name='add_item'),
-    re_path(r'^new$', new_list, name='new_list'),
+    path('<int:list_id>/', view_list, name='view_list'),
+    path('new', new_list, name='new_list'),
 ]

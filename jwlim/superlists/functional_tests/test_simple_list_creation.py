@@ -1,24 +1,10 @@
-from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
+from webdriver_manager.chrome import ChromeDriverManager
+from .base import FunctionalTest
 
 
-class NewVisitorTest(LiveServerTestCase):
-
-    def setUp(self) -> None:
-        self.chrome_path = r'/usr/local/bin/chromedriver'
-        self.browser = webdriver.Chrome(executable_path=self.chrome_path)
-        self.browser.implicitly_wait(3)
-
-    def tearDown(self) -> None:
-        self.browser.quit()
-
-    def check_for_row_in_list_table(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
-
+class NewVisitorTest(FunctionalTest):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
         # 해당 웹 사이트를 확인하러 간다
@@ -62,7 +48,7 @@ class NewVisitorTest(LiveServerTestCase):
         ## 새로운 브라우저 세션을 이용해서 에디스의 정보가 -> 메타 주석, 테스트가 어떻게 동작하는지 설명하기 위해 사용함
         ## 쿠키를 통해 유입되는 것을 방지한다
         self.browser.quit()
-        self.browser = webdriver.Chrome(executable_path=self.chrome_path)
+        self.browser = webdriver.Chrome(ChromeDriverManager().install())
 
         # 프란시스가 홈페이지에 접속한다
         # 에디스의 리스트는 보이지 않는다
