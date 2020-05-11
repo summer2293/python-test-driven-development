@@ -1,7 +1,9 @@
-# from django.conf.urls import include
 from django.urls import path
-from . import views  # 이런식으로 import 하면 붉은 밑줄도  안 나타나고 좋네요
+from . import views
 
 urlpatterns = [
     path('', views.home_page),
+    path('lists/<int:list_id>/', views.view_list),
+    path('lists/<int:list_id>/add_item', views.add_item),
+    path('lists/new', views.new_list),
 ]

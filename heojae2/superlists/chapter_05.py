@@ -2,13 +2,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import unittest
-
+from webdriver_manager.chrome import ChromeDriverManager
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
         # self.browser = webdriver.Firefox(executable_path=r'/home/shrldh3576/바탕화면/Gekodriver/geckodriver')
         # 파이어 폭스로 실행을 할때에는 되지 않지만,  구글 크롬 드라이버로 실행을 하니 또 되는 군요 되게 신기하네!
-        self.browser = webdriver.Chrome("/home/shrldh3576/바탕화면/Gekodriver/chromedriver")
+        self.browser = webdriver.Chrome(ChromeDriverManager().install())
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
