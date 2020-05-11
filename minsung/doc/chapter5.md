@@ -235,7 +235,7 @@ self.assertIn("2: 공잣깃털을 이용하여 그물 만들기", [row.text for 
 
 `DRY` 는 Don't Repeat Yourself 의 줄임말로서 같은 코드가 세 번 이상 등장하게 되면 중복을 제거해야 된다는 이론입니다.
 
-이를 위해서 헬퍼메소드 `check_for_row_int_list_table`를 만들어보도록 합시다.
+이를 위해서 헬퍼메소드 `check_for_row_in_list_table`를 만들어보도록 합시다.
 
 ```python
 from selenium import webdriver
@@ -250,7 +250,7 @@ class NewVisitorTest(unittest.TestCase):
     def testDown(self):
         self.browser.quit()
 
-    def check_for_row_int_list_table(self, row_text):
+    def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
@@ -260,8 +260,8 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.check_for_row_int_list_table("1: 공잣깃털 사기")
-        self.check_for_row_int_list_table("2: 공잣깃털을 이용하여 그물 만들기")
+        self.check_for_row_in_list_table("1: 공잣깃털 사기")
+        self.check_for_row_in_list_table("2: 공잣깃털을 이용하여 그물 만들기")
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')

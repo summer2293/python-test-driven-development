@@ -109,7 +109,7 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(3)
         self.browser.quit()
 
-    def check_for_row_int_list_table(self, row_text):
+    def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
@@ -135,8 +135,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.check_for_row_int_list_table("1: 공잣깃털 사기")
-        self.check_for_row_int_list_table("2: 공잣깃털을 이용하여 그물 만들기")
+        self.check_for_row_in_list_table("1: 공잣깃털 사기")
+        self.check_for_row_in_list_table("2: 공잣깃털을 이용하여 그물 만들기")
 
 
 # 3. if __name__ == '__main__': 삭제
@@ -207,8 +207,8 @@ def test_can_start_a_list_and_retrieve_it_later(self):
     
     edith_list_url = self.browser.current_url
     self.assertRegex(edith_list_url, '/lists/.+')
-    self.check_for_row_int_list_table("1: 공잣깃털 사기")
-    self.check_for_row_int_list_table("2: 공잣깃털을 이용하여 그물 만들기")
+    self.check_for_row_in_list_table("1: 공잣깃털 사기")
+    self.check_for_row_in_list_table("2: 공잣깃털을 이용하여 그물 만들기")
     
     # 새로운 브라우저 세션을 이용해서 에디스의 정보가 쿠키를 통해 유입되는 것을 방지
     self.browser.quit()
