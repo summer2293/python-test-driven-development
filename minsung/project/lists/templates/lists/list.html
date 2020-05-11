@@ -5,7 +5,7 @@ Your To-Do list
 {% endblock %}
 
 {% block form_action %}
-/lists/{{list.id}}/add_item
+{% url 'view_list' list.id %}
 {% endblock %}
 
 {% block table %}

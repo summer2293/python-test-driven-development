@@ -27,8 +27,8 @@ class NewVisitorTest(FuntionalTest):
 
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-        self.check_for_row_int_list_table("1: 공잣깃털 사기")
-        self.check_for_row_int_list_table("2: 공잣깃털을 이용하여 그물 만들기")
+        self.check_for_row_in_list_table("1: 공잣깃털 사기")
+        self.check_for_row_in_list_table("2: 공잣깃털을 이용하여 그물 만들기")
 
         # 새로운 브라우저 세션을 이용해서 에디스의 정보가 쿠키를 통해 유입되는 것을 방지
         self.browser.quit()
