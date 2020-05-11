@@ -2,6 +2,7 @@ from .base import FuntionalTest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
+import time
 
 
 class NewVisitorTest(FuntionalTest):
@@ -22,6 +23,7 @@ class NewVisitorTest(FuntionalTest):
         inputbox.send_keys(Keys.ENTER)
 
         inputbox = self.browser.find_element_by_id('id_new_item')
+        time.sleep(1)
         inputbox.send_keys('공잣깃털을 이용하여 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
 
