@@ -6,14 +6,15 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-class FuntionalTest(StaticLiveServerTestCase):
+
+class FunctionalTest(StaticLiveServerTestCase):
     # @classmethod
     # def setUpClass(cls):
     #     pass
     # @classmethod
     # def testDownClass(cls):
     #     pass
-    
+
     def setUp(self):
         # 4. ChromeDriver 변경
         self.browser = webdriver.Chrome(ChromeDriverManager().install())

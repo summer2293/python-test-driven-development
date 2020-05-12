@@ -26,7 +26,7 @@ def test_cannot_add_empty_list_items(self):
 
 각 테스트를 개별 클래스로 나누겠습니다. 
 
-기본이 되는 base.py에서 헬퍼함수들을 정의해주고 각 기능별로 새로운 파일에 새로운 클래스를 만들어 base.py의 `FuntionalTest` 을 상속받아 사용하겠습니다.
+기본이 되는 base.py에서 헬퍼함수들을 정의해주고 각 기능별로 새로운 파일에 새로운 클래스를 만들어 base.py의 `FunctionalTest` 을 상속받아 사용하겠습니다.
 
 ``` python
 # functional_tests/base.py
@@ -39,7 +39,7 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-class FuntionalTest(StaticLiveServerTestCase):
+class FunctionalTest(StaticLiveServerTestCase):
     # 앞의 장에서 한 부분이라 나중에 보강하자.
     # @classmethod
     # def setUpClass(cls):
@@ -66,12 +66,12 @@ class FuntionalTest(StaticLiveServerTestCase):
 ```python
 # functional_tests/test_simple_list_creation.py
 
-from .base import FuntionalTest
+from .base import FunctionalTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(FuntionalTest):
+class NewVisitorTest(FunctionalTest):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 2. 로컬 호스트 접속 하드코딩 수정
         self.browser.get(self.live_server_url)
@@ -128,10 +128,10 @@ class NewVisitorTest(FuntionalTest):
 ```python
 # functional_tests/test_layout_and_styling.py
 
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 
-class LayoutStylingTest(FuntionalTest):
+class LayoutStylingTest(FunctionalTest):
     def test_layout_and_styling(self):
         # 에디스는 메인 페이지를 방문한다.
         self.browser.get(self.live_server_url)
@@ -151,10 +151,10 @@ class LayoutStylingTest(FuntionalTest):
 
 
 from unittest import skip
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 
-class ItemValidationTest(FuntionalTest):
+class ItemValidationTest(FunctionalTest):
     @skip
     def test_cannot_add_empty_list_items(self):
         # 에디스는 빈 아이템을 실수로 등록
@@ -195,10 +195,10 @@ python manage.py test functional_tests.test_list_item_validation
 ``` python
 # functional_tests/test_list_item_validation.py
 
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 
-class ItemValidationTest(FuntionalTest):
+class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_list_items(self):
         # 에디스는 빈 아이템을 실수로 등록
         # 입력상자가 비어있는 경우에 enter키

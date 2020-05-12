@@ -1,8 +1,8 @@
-from .base import FuntionalTest
+from .base import FunctionalTest
 import time
 
 
-class ItemValidationTest(FuntionalTest):
+class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_list_items(self):
         # 에디스는 빈 아이템을 실수로 등록
         # 입력상자가 비어있는 경우에 enter키

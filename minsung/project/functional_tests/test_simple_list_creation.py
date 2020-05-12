@@ -1,11 +1,11 @@
-from .base import FuntionalTest
+from .base import FunctionalTest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 import time
 
 
-class NewVisitorTest(FuntionalTest):
+class NewVisitorTest(FunctionalTest):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 2. 로컬 호스트 접속 하드코딩 수정
         self.browser.get(self.live_server_url)

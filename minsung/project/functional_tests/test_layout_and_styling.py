@@ -1,7 +1,7 @@
-from .base import FuntionalTest
+from .base import FunctionalTest
 
 
-class LayoutStylingTest(FuntionalTest):
+class LayoutStylingTest(FunctionalTest):
     def test_layout_and_styling(self):
         # 에디스는 메인 페이지를 방문한다.
         self.browser.get(self.live_server_url)
