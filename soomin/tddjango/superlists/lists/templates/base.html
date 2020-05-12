@@ -17,6 +17,13 @@
                         <input type="text" name="item_text" class="form-control input-lg" id="id_new_item"
                             placeholder="작업 아이템 입력">
                         {% csrf_token %}
+                        {% if error %}
+                        <div class="form-group has-error">
+                            <span class="help-block">
+                                {{error}}
+                            </span>
+                        </div>
+                        {% endif %}
                     </form>
                 </div>
             </div>
