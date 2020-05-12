@@ -1,10 +1,10 @@
 from django.urls import reverse, resolve
 from django.test import TestCase
 from django.http import HttpRequest
-from .views import home_page
+from ..views import home_page
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from lists.models import Item, List
+from ..models import Item, List
 import re
 
 
@@ -124,7 +124,5 @@ class NewItemTest(TestCase):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
-        response = self.client.post(
-            f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"}
-        )
+        response = self.client.post(f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"})
         self.assertRedirects(response, f"/lists/{correct_list.id}/")
