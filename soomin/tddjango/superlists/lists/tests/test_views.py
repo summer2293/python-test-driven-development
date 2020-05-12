@@ -60,8 +60,16 @@ class ListViewTest(TestCase):
         response = self.client.get(f"/lists/{correct_list.id}/")
         self.assertEqual(response.context["list"], correct_list)
 
+    def test_validation_errors_end_up_on_lists_page(self):
+        list_ = List.objects.create()
+        response = self.client.post(f"lists/{list_.id}/", data={"item_text": ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "list.html")
+        expected_error = escape("You can't have an empty list them")
+        self.assertContains(response, expected_error)
 
-class NewListTest(TestCase):
+
+class ListViewTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post("/lists/new", data={"item_text": "신규 작업 아이템"})
 
@@ -83,13 +91,11 @@ class NewListTest(TestCase):
         self.assertEqual(List.objects.count(), 0)
         self.assertEqual(Item.objects.count(), 0)
 
-
-class NewItemTest(TestCase):
     def test_can_save_a_POST_request_to_an_existing_list(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
-        self.client.post(f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"})
+        self.client.post(f"/lists/{correct_list.id}/", data={"item_text": "기존 목록에 신규 아이템"})
         #
 
         self.assertEqual(Item.objects.count(), 1)
@@ -101,5 +107,5 @@ class NewItemTest(TestCase):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
-        response = self.client.post(f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"})
+        response = self.client.post(f"/lists/{correct_list.id}/", data={"item_text": "기존 목록에 신규 아이템"})
         self.assertRedirects(response, f"/lists/{correct_list.id}/")
