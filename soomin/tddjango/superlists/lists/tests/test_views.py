@@ -1,10 +1,10 @@
 from django.urls import reverse, resolve
 from django.test import TestCase
 from django.http import HttpRequest
-from .views import home_page
+from ..views import home_page
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from lists.models import Item, List
+from ..models import Item, List
 import re
 
 
@@ -25,37 +25,6 @@ class HomePageTest(TestCase):
         response_decode = self.remove_csrf(response.content.decode())
 
         self.assertEqual(response_decode, expected_html)
-
-
-class ItemModelTest(TestCase):
-    def remove_csrf(self, origin):
-        csrf_regex = r"<input[^>]+csrfmiddlewaretoken[^>]+>"
-        return re.sub(csrf_regex, "", origin)
-
-    def test_saving_and_retrieving_items(self):
-        list_ = List()
-        list_.save()
-
-        first_item = Item()
-        first_item.text = "첫 번째 아이템"
-        first_item.list = list_
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = "두 번째 아이템"
-        second_item.list = list_
-        second_item.save()
-
-        save_items = Item.objects.all()
-        self.assertEqual(save_items.count(), 2)
-
-        first_saved_item = save_items[0]
-        second_saved_item = save_items[1]
-
-        self.assertEqual(first_saved_item.text, "첫 번째 아이템")
-        self.assertEqual(first_saved_item.list, list_)
-        self.assertEqual(second_saved_item.text, "두 번째 아이템")
-        self.assertEqual(second_saved_item.list, list_)
 
 
 class ListViewTest(TestCase):
@@ -91,8 +60,16 @@ class ListViewTest(TestCase):
         response = self.client.get(f"/lists/{correct_list.id}/")
         self.assertEqual(response.context["list"], correct_list)
 
+    def test_validation_errors_end_up_on_lists_page(self):
+        list_ = List.objects.create()
+        response = self.client.post(f"lists/{list_.id}/", data={"item_text": ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "list.html")
+        expected_error = escape("You can't have an empty list them")
+        self.assertContains(response, expected_error)
 
-class NewListTest(TestCase):
+
+class ListViewTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post("/lists/new", data={"item_text": "신규 작업 아이템"})
 
@@ -106,13 +83,19 @@ class NewListTest(TestCase):
         new_list = List.objects.first()
         self.assertRedirects(response, f"/lists/{new_list.id}/")
 
+    def test_validation_errors_are_sent_back_to_home_page_template(self):
+        pass
 
-class NewItemTest(TestCase):
+    def test_invalid_list_items_arent_saved(self):
+        self.client.post("/lists/new", data={"item_text": ""})
+        self.assertEqual(List.objects.count(), 0)
+        self.assertEqual(Item.objects.count(), 0)
+
     def test_can_save_a_POST_request_to_an_existing_list(self):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
-        self.client.post(f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"})
+        self.client.post(f"/lists/{correct_list.id}/", data={"item_text": "기존 목록에 신규 아이템"})
         #
 
         self.assertEqual(Item.objects.count(), 1)
@@ -124,7 +107,5 @@ class NewItemTest(TestCase):
         other_list = List.objects.create()
         correct_list = List.objects.create()
 
-        response = self.client.post(
-            f"/lists/{correct_list.id}/add_item", data={"item_text": "기존 목록에 신규 아이템"}
-        )
+        response = self.client.post(f"/lists/{correct_list.id}/", data={"item_text": "기존 목록에 신규 아이템"})
         self.assertRedirects(response, f"/lists/{correct_list.id}/")
